@@ -13,6 +13,8 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .logo { font-weight: 700; font-size: 20px; color: var(--accent); }
 nav a { color: var(--fg); text-decoration: none; margin-left: 20px; font-size: 14px; opacity: 0.8; }
 nav a:hover { opacity: 1; color: var(--accent); }
+nav .btn-support { background: #ff813f; color: #fff; padding: 6px 14px; border-radius: 4px; opacity: 1; font-weight: 600; }
+nav .btn-support:hover { background: #e06a20; }
 .hero { text-align: center; padding: 80px 20px 60px; }
 .hero h1 { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
 .hero h1 span { color: var(--accent); }
@@ -78,6 +80,13 @@ nav a:hover { opacity: 1; color: var(--accent); }
 .wf-desc { font-size: 11px; opacity: 0.6; margin-top: 2px; }
 .wf-arrow { font-size: 20px; color: var(--accent); }
 .demo-caption { text-align: center; font-size: 14px; opacity: 0.6; max-width: 500px; margin: 0 auto; }
+.support { padding: 60px 0; text-align: center; }
+.support h2 { text-align: center; font-size: 28px; margin-bottom: 40px; }
+.support-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 40px; max-width: 400px; margin: 0 auto; }
+.support-icon { font-size: 48px; margin-bottom: 12px; }
+.support-card h3 { font-size: 20px; margin-bottom: 8px; }
+.support-card p { font-size: 14px; opacity: 0.7; margin-bottom: 20px; }
+.support-note { font-size: 12px; opacity: 0.5; margin-top: 12px; }
 footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); font-size: 13px; opacity: 0.5; }
 </style>
 </head>
@@ -89,6 +98,7 @@ footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--bor
     <a href="#demo">Demo</a>
     <a href="#pricing">Pricing</a>
     <a href="https://github.com/nrupala/LocalForge">GitHub</a>
+    <a href="https://buymeacoffee.com/nrupalakolt" class="btn-support">Support</a>
   </div>
 </nav>
 
@@ -209,7 +219,7 @@ footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--bor
         <li>Priority updates</li>
         <li>Email support</li>
       </ul>
-      <a href="#" class="btn btn-primary">Start Free Trial</a>
+      <a href="https://buymeacoffee.com/nrupalakolt" class="btn btn-primary">Subscribe Now</a>
     </div>
 
     <div class="plan">
@@ -222,10 +232,22 @@ footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--bor
         <li>SAML/SSO</li>
         <li>Dedicated support</li>
       </ul>
-      <a href="#" class="btn btn-secondary">Contact Sales</a>
+      <a href="https://buymeacoffee.com/nrupalakolt" class="btn btn-secondary">Contact via Support</a>
     </div>
   </div>
   <p style="text-align:center;margin-top:20px;font-size:13px;opacity:0.5">Also available: Perpetual license for air-gapped environments — $249 (includes 1 year of updates)</p>
+</section>
+
+<section class="support" id="support">
+  <h2>Support LocalForge</h2>
+  <p class="subtitle">Pay what you want. All payments processed securely via Stripe.</p>
+  <div class="support-card">
+    <div class="support-icon">☕</div>
+    <h3>Buy me a coffee</h3>
+    <p>Support independent development. Every contribution helps keep LocalForge free and open source.</p>
+    <a href="https://buymeacoffee.com/nrupalakolt" class="btn btn-primary">Buy a Coffee</a>
+    <p class="support-note">One-time or monthly — you choose. Powered by Stripe.</p>
+  </div>
 </section>
 
 <section class="compare">
@@ -250,6 +272,7 @@ footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--bor
   <p>LocalForge — Open source core · Commercial license for Pro/Enterprise</p>
   <p>© 2026 <strong>Nrupal Akolkar</strong>. All rights reserved.</p>
   <p>Proudly Made in Canada 🇨🇦</p>
+  <p style="margin-top:8px"><a href="https://buymeacoffee.com/nrupalakolt" style="color:var(--accent);text-decoration:none">Buy me a coffee ☕</a></p>
 </footer>
 </body>
 </html>

@@ -143,7 +143,8 @@ The LocalForge source code is licensed under the **GNU Affero General Public Lic
 - **Commercial use** (for-profit entity, proprietary software): Requires a commercial license
 - See [LICENSE](LICENSE) for full terms
 
-Commercial licenses available at [localforge.dev/pricing](https://localforge.dev/pricing).
+Commercial licenses available at [localforge.dev/pricing](https://localforge.dev/pricing).  
+[Support on Buy Me a Coffee ☕](https://buymeacoffee.com/nrupalakolt) — Payments via Stripe.
 
 ---
 
