@@ -4,7 +4,26 @@ A 3-minute guided walkthrough of all three interfaces and the multi-agent workfl
 
 ---
 
-## CLI Demo (45 seconds)
+## Automated Video Generation
+
+```bash
+# One command — generates audio narration + video automatically:
+generate-demo-video.bat
+
+# Or step by step:
+pip install -r scripts\requirements-demo.txt
+python scripts\generate-demo.py
+
+# For full screen recording (record Web UI in browser):
+python scripts\generate-demo.py --serve
+# Then browse to http://127.0.0.1:3099
+```
+
+The generator uses **edge-tts** (free, no API key) for AI narration, and creates a polished demo video at `demo-assets/localforge_demo.mp4`.
+
+---
+
+## Manual CLI Demo (45 seconds)
 
 ```bash
 # Open terminal, run:
@@ -83,3 +102,16 @@ Planner → Writer → Reviewer → Tester
 - **OBS Studio** (free, open source)
 - **Screen Studio** (polished, $89 one-time)
 - **Kap** (free, macOS only)
+- **NarrateAI** (narrateai.app) — upload silent recording, AI adds narration
+- **Trupeer** (trupeer.ai) — screen recording → AI voiceover + zooms
+
+## Auto-Generated Narration
+The included `generate-demo-video.bat` script uses **edge-tts** (free, no API key)
+to generate studio-quality AI narration for your demo video.
+
+## Support
+- GitHub: https://github.com/nrupala/LocalForge
+- Issues: Use GitHub issue templates (emailed to maintainer)
+- Payments: https://buymeacoffee.com/nrupalakolt (Stripe)
+- Email: nrupalakolkar@gmail.com
+- License: ©2026 Nrupal Akolkar — Proudly Made in Canada 🇨🇦
