@@ -1,15 +1,21 @@
 # LocalForge
 
-> **Local-first AI development platform** — VS Code extension · CLI · Web UI
->
-> Run fully offline with llama.cpp, or connect to 75+ providers.  
-> Multi-agent workflow: Planner → Writer → Reviewer → Tester.  
+> **Local-first AI development platform** — VS Code extension · CLI · Web UI  
+> Multi-agent workflow: Planner → Writer → Reviewer → Tester  
 > **Proudly Made in Canada.** 🇨🇦
+
+<p align="center">
+  <a href="https://github.com/nrupala/LocalForge/actions"><img src="https://github.com/nrupala/LocalForge/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/local-forge"><img src="https://img.shields.io/npm/v/local-forge" alt="npm"></a>
+  <a href="https://github.com/nrupala/LocalForge/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="License"></a>
+  <a href="https://nrupala.github.io/LocalForge"><img src="https://img.shields.io/badge/website-localforge.dev-blue" alt="Website"></a>
+</p>
 
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#quick-start">Quick Start</a> •
   <a href="#modes">Modes</a> •
+  <a href="#architecture">Architecture</a> •
   <a href="#pricing">Pricing</a> •
   <a href="#license">License</a>
 </p>
@@ -26,6 +32,7 @@
 | CLI + Web UI | ✅ | ❌ | ❌ | ✅ |
 | Self-hosted server | ✅ | ❌ | ❌ | ❌ |
 | Zero data leaving your machine | ✅ | ❌ | ❌ | ❌ |
+| AES-256-GCM encryption | ✅ | ❌ | ❌ | ❌ |
 | Price | **$0-$29/mo** | $10-39/mo | $20/mo | $20/mo |
 
 ## Quick Start
@@ -86,10 +93,10 @@ $env:LOCALFORGE_API_KEY = "your-secret"; npm run server
 
 | Mode | Description |
 |---|---|
-| **Chat** | Conversational AI with code context |
-| **Agent** | Autonomous: plans, executes, iterates up to 5 rounds |
-| **Plan** | Architecture analysis and design docs |
-| **Build** | Multi-agent workflow (Planner→Writer→Reviewer→Tester) |
+| **Chat** | Conversational AI with code context and optional mode switching (`@plan`, `@build`) |
+| **Agent** | Autonomous: plans, executes, iterates up to 5 rounds with task feedback |
+| **Plan** | Architecture analysis with structured JSON output and mode recommendations |
+| **Build** | Multi-agent workflow: Planner → Writer → Reviewer → Tester pipeline |
 
 ## Architecture
 
@@ -115,6 +122,7 @@ src/
 - **Command approval** — granular control over file/terminal/test operations
 - **Destructive command blocklist** — prevents `rm -rf /` and similar
 - **Binary file protection** — blocks arbitrary binary writes
+- **Configurable** via `SecurityConfig` interface (`encryptConversations`, `commandApproval`)
 
 ## Pricing
 
@@ -136,8 +144,6 @@ The LocalForge source code is licensed under the **GNU Affero General Public Lic
 - See [LICENSE](LICENSE) for full terms
 
 Commercial licenses available at [localforge.dev/pricing](https://localforge.dev/pricing).
-
-[GitHub → nrupala/LocalForge](https://github.com/nrupala/LocalForge)
 
 ---
 

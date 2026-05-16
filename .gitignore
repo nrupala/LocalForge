@@ -18,3 +18,8 @@ llama-server-out.log
 skills/
 .sixth/
 AntigravitylocalPlan.json
+Modelfile
+mock_hardware_driver.c
+details.docx
+*.png
+!icon.png

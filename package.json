@@ -1,15 +1,44 @@
 {
   "name": "local-forge",
   "displayName": "LocalForge",
-  "description": "Local LLM-powered development forge",
-  "version": "2.0.0",
-  "publisher": "local-forge",
+  "description": "Local-first AI development platform — VS Code extension + CLI + Web UI with multi-agent workflow (Planner→Writer→Reviewer→Tester)",
+  "version": "0.1.0",
+  "publisher": "nrupala",
+  "author": {
+    "name": "Nrupal Akolkar",
+    "email": "nrupalakolkar@gmail.com"
+  },
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nrupala/LocalForge"
+  },
+  "homepage": "https://nrupala.github.io/LocalForge",
+  "bugs": {
+    "url": "https://github.com/nrupala/LocalForge/issues"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
+    "Machine Learning",
+    "Programming Languages",
+    "Chat",
     "Other"
   ],
+  "keywords": [
+    "llm",
+    "ai",
+    "code generation",
+    "multi-agent",
+    "workflow",
+    "local",
+    "llama.cpp",
+    "gguf",
+    "copilot alternative",
+    "claude code alternative"
+  ],
+  "icon": "icon.png",
   "activationEvents": [
     "onCommand:localForge.analyzeContext",
     "onCommand:localForge.focusTasks"

@@ -11,7 +11,7 @@ export class SandboxExecutor {
   public requireApprovalFor: ('file_write' | 'file_delete' | 'terminal_cmd' | 'test_run')[] = [];
   public onApprovalRequired?: (actionType: string, payload: any) => Promise<boolean>;
   public autoCommit = false;
-  public gitAuthor = 'LocalForge <localforge@local>';
+  public gitAuthor = 'Nrupal Akolkar <nrupalakolkar@gmail.com>';
 
   private blockList = [
     'rm -rf /', 'rm -rf ~', 'rm -rf .',
