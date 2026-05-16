@@ -1,0 +1,81 @@
+name: Bug Report
+description: File a bug report to help us improve LocalForge
+title: "[Bug] "
+labels: ["bug"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Your report will be emailed to the maintainer.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: The CLI crashes when I try to run the workflow mode...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Run `localforge workflow "test"`
+        2. See error...
+      render: shell
+
+  - type: dropdown
+    id: interface
+    attributes:
+      label: Interface
+      description: Which interface are you using?
+      options:
+        - CLI
+        - VS Code Extension
+        - Web UI
+        - Multiple
+    validations:
+      required: true
+
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      description: Which provider are you using?
+      options:
+        - llama.cpp (Local)
+        - OpenCode
+        - OpenAI
+        - Demo mode
+        - N/A
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of LocalForge are you running?
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or output
+      description: Copy and paste any relevant log output.
+      render: shell
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

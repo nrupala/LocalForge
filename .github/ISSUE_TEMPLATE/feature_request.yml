@@ -1,0 +1,52 @@
+name: Feature Request
+description: Suggest an idea for LocalForge
+title: "[Feature] "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting! Feature requests are reviewed and will be discussed via email.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear and concise description of what the problem is.
+      placeholder: I'm always frustrated when...
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+      description: What do you want to happen?
+      placeholder: I'd like LocalForge to support...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: Any workarounds or alternative solutions?
+
+  - type: dropdown
+    id: interface
+    attributes:
+      label: Interface
+      description: Which interface does this affect?
+      options:
+        - CLI
+        - VS Code Extension
+        - Web UI
+        - All
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or examples here.

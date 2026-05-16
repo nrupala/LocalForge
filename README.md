@@ -133,6 +133,14 @@ src/
 | **Enterprise** | **$29/mo** | Teams needing SSO, private deployment, support |
 | **Perpetual** | **$249** one-time | Air-gapped environments, 1 year updates |
 
+## Contributing
+
+Pull requests welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+- `master` is protected — all PRs need review + passing CI
+- Use issue templates for bugs and feature requests
+- Questions? Start a [GitHub Discussion](https://github.com/nrupala/LocalForge/discussions)
+
 ## License
 
 Copyright (C) 2026 **Nrupal Akolkar**. Proudly Made in Canada.

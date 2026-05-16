@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security Concerns
+    url: mailto:nrupalakolkar@gmail.com
+    about: Report security vulnerabilities directly via email
+  - name: Commercial Licensing
+    url: https://buymeacoffee.com/nrupalakolt
+    about: Purchase a commercial license or support the project
+  - name: GitHub Discussions
+    url: https://github.com/nrupala/LocalForge/discussions
+    about: Ask questions and discuss ideas with the community
