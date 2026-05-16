@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LocalForge — Local-First AI Development</title>
+<style>
+:root { --bg: #0d1117; --fg: #e6edf3; --accent: #58a6ff; --card: #161b22; --border: #30363d; --green: #3fb950; --orange: #d29922; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+.logo { font-weight: 700; font-size: 20px; color: var(--accent); }
+nav a { color: var(--fg); text-decoration: none; margin-left: 20px; font-size: 14px; opacity: 0.8; }
+nav a:hover { opacity: 1; color: var(--accent); }
+.hero { text-align: center; padding: 80px 20px 60px; }
+.hero h1 { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
+.hero h1 span { color: var(--accent); }
+.hero p { font-size: 18px; opacity: 0.7; max-width: 600px; margin: 0 auto 32px; }
+.btn { display: inline-block; padding: 12px 28px; border-radius: 6px; font-weight: 600; font-size: 15px; text-decoration: none; cursor: pointer; margin: 4px; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-secondary { background: var(--card); color: var(--fg); border: 1px solid var(--border); }
+.btn:hover { opacity: 0.9; }
+.features { padding: 60px 0; }
+.features h2 { text-align: center; font-size: 28px; margin-bottom: 40px; }
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
+.feature-card h3 { font-size: 16px; margin-bottom: 8px; }
+.feature-card p { font-size: 14px; opacity: 0.7; }
+.feature-card .icon { font-size: 24px; margin-bottom: 12px; }
+.pricing { padding: 60px 0; }
+.pricing h2 { text-align: center; font-size: 28px; margin-bottom: 16px; }
+.pricing .subtitle { text-align: center; opacity: 0.6; margin-bottom: 40px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: start; }
+.plan { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 28px; }
+.plan.featured { border-color: var(--accent); position: relative; }
+.plan.featured::before { content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 12px; border-radius: 12px; }
+.plan h3 { font-size: 18px; margin-bottom: 4px; }
+.plan .price { font-size: 36px; font-weight: 700; margin: 16px 0; }
+.plan .price span { font-size: 14px; font-weight: 400; opacity: 0.6; }
+.plan ul { list-style: none; margin: 20px 0; }
+.plan li { padding: 6px 0; font-size: 14px; }
+.plan li::before { content: '✓ '; color: var(--green); font-weight: 700; }
+.plan .btn { width: 100%; text-align: center; }
+.compare { padding: 40px 0; }
+.compare h2 { text-align: center; font-size: 28px; margin-bottom: 30px; }
+.compare table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.compare th, .compare td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+.compare th { font-weight: 600; color: var(--accent); }
+.compare td:first-child { font-weight: 500; }
+.compare .yes { color: var(--green); font-weight: 700; }
+.compare .no { color: #555; }
+.compare .partial { color: var(--orange); }
+.demo { padding: 60px 0; }
+.demo h2 { text-align: center; font-size: 28px; margin-bottom: 40px; }
+.demo-terminal { background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 40px; border: 1px solid var(--border); }
+.demo-bar { background: #1a1a2e; padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-dot:nth-child(1) { background: #ff5f57; }
+.demo-dot:nth-child(2) { background: #ffbd2e; }
+.demo-dot:nth-child(3) { background: #28c840; }
+.demo-title { color: #666; font-size: 12px; margin-left: 8px; font-family: 'SF Mono', 'Fira Code', monospace; }
+.demo-body { padding: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; line-height: 1.8; }
+.demo-line { opacity: 0; animation: fadeIn 0.5s ease forwards; animation-delay: calc(var(--i) * 0.3s); }
+.prompt { color: var(--green); margin-right: 8px; }
+.step { display: inline-block; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; margin-right: 6px; }
+.step-done { background: #0d3a1e; color: var(--green); }
+.step-active { background: #1a2d4a; color: var(--accent); animation: pulse 1.5s infinite; }
+.step-wait { background: #222; color: #555; }
+@keyframes fadeIn { to { opacity: 1; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.workflow-visual { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 32px auto; flex-wrap: wrap; }
+.wf-step { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; text-align: center; min-width: 100px; transition: all 0.3s; }
+.wf-step.wf-done { border-color: var(--green); }
+.wf-step.wf-active { border-color: var(--accent); box-shadow: 0 0 20px rgba(88,166,255,0.15); }
+.wf-icon { font-size: 28px; margin-bottom: 6px; }
+.wf-label { font-weight: 600; font-size: 13px; }
+.wf-desc { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+.wf-arrow { font-size: 20px; color: var(--accent); }
+.demo-caption { text-align: center; font-size: 14px; opacity: 0.6; max-width: 500px; margin: 0 auto; }
+footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); font-size: 13px; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo">LocalForge</span>
+  <div>
+    <a href="#features">Features</a>
+    <a href="#demo">Demo</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://github.com/nrupala/LocalForge">GitHub</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Code with <span>any</span> model, <span>anywhere</span></h1>
+  <p>LocalForge is a local-first AI development platform. Run fully offline with llama.cpp, or connect to 75+ providers through OpenCode. No vendor lock-in. No subscription required for local use.</p>
+  <a href="https://github.com/nrupala/LocalForge/releases" class="btn btn-primary">Download for VS Code</a>
+  <a href="#pricing" class="btn btn-secondary">See Pricing</a>
+</section>
+
+<div class="container">
+<section class="features" id="features">
+  <h2>Built for developers who value freedom</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🔒</div>
+      <h3>Fully Offline</h3>
+      <p>Run with llama.cpp on your own hardware. No data leaves your machine. No cloud dependency.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔌</div>
+      <h3>75+ Providers</h3>
+      <p>Connect to OpenCode, OpenAI, or any compatible API. Use the best model for each task.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔄</div>
+      <h3>Multi-Agent Workflow</h3>
+      <p>Planner → Writer → Reviewer → Tester pipeline. AI-assisted code generation with quality gates.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💻</div>
+      <h3>VS Code + CLI + Web UI</h3>
+      <p>Use LocalForge as a VS Code extension, a terminal CLI, or a standalone web application.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📦</div>
+      <h3>Autonomous Agent</h3>
+      <p>Plan, execute, and iterate. The agent reads files, writes code, runs commands, and tests results.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🧩</div>
+      <h3>Model Agnostic</h3>
+      <p>GGUF, OpenAI, or any provider. Switch with a click. Your tools, your choice, your data.</p>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="demo">
+  <h2>See it in action</h2>
+  <p class="subtitle">One command. Four AI agents. Production-ready code.</p>
+  <div class="demo-terminal">
+    <div class="demo-bar">
+      <span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span>
+      <span class="demo-title">localforge workflow "add input validation to API"</span>
+    </div>
+    <div class="demo-body" id="demoBody">
+      <div class="demo-line" style="--i:0"><span class="prompt">$</span> localforge workflow "add input validation to API"</div>
+      <div class="demo-line" style="--i:1"><span class="step step-done">PLANNER</span> Analyzing requirements & architecture...</div>
+      <div class="demo-line" style="--i:2"><span class="step step-done">PLANNER</span> Plan: 3 files, 2 new functions, 1 test suite</div>
+      <div class="demo-line" style="--i:3"><span class="step step-active">WRITER</span>  Generating code...</div>
+      <div class="demo-line" style="--i:4"><span class="step step-wait">REVIEWER</span> (queued)</div>
+      <div class="demo-line" style="--i:5"><span class="step step-wait">TESTER</span>  (queued)</div>
+    </div>
+  </div>
+
+  <div class="workflow-visual">
+    <div class="wf-step wf-done">
+      <div class="wf-icon">📋</div>
+      <div class="wf-label">Planner</div>
+      <div class="wf-desc">Architecture & design</div>
+    </div>
+    <div class="wf-arrow">→</div>
+    <div class="wf-step wf-done">
+      <div class="wf-icon">✍️</div>
+      <div class="wf-label">Writer</div>
+      <div class="wf-desc">Code generation</div>
+    </div>
+    <div class="wf-arrow">→</div>
+    <div class="wf-step wf-active">
+      <div class="wf-icon">🔍</div>
+      <div class="wf-label">Reviewer</div>
+      <div class="wf-desc">Quality check</div>
+    </div>
+    <div class="wf-arrow">→</div>
+    <div class="wf-step">
+      <div class="wf-icon">🧪</div>
+      <div class="wf-label">Tester</div>
+      <div class="wf-desc">Test generation</div>
+    </div>
+  </div>
+  <p class="demo-caption">The multi-agent workflow runs automatically. Each agent has a specialized role, context, and quality gate.</p>
+</section>
+
+<section class="pricing" id="pricing">
+  <h2>Simple pricing</h2>
+  <p class="subtitle">15-day free trial. No credit card required. Cancel anytime.</p>
+  <div class="pricing-grid">
+    <div class="plan">
+      <h3>Self-Hosted</h3>
+      <div class="price">$0 <span>forever</span></div>
+      <ul>
+        <li>Local llama.cpp backend</li>
+        <li>VS Code extension</li>
+        <li>CLI and Web UI</li>
+        <li>Multi-agent workflow</li>
+        <li>Community support</li>
+      </ul>
+      <a href="https://github.com/nrupala/LocalForge" class="btn btn-secondary">Get Started Free</a>
+    </div>
+
+    <div class="plan featured">
+      <h3>Pro</h3>
+      <div class="price">$14 <span>/month</span></div>
+      <ul>
+        <li>Everything in Self-Hosted</li>
+        <li>OpenCode provider integration</li>
+        <li>Unlimited model switching</li>
+        <li>Priority updates</li>
+        <li>Email support</li>
+      </ul>
+      <a href="#" class="btn btn-primary">Start Free Trial</a>
+    </div>
+
+    <div class="plan">
+      <h3>Enterprise</h3>
+      <div class="price">$29 <span>/month</span></div>
+      <ul>
+        <li>Everything in Pro</li>
+        <li>Private deployment</li>
+        <li>Custom provider configs</li>
+        <li>SAML/SSO</li>
+        <li>Dedicated support</li>
+      </ul>
+      <a href="#" class="btn btn-secondary">Contact Sales</a>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:20px;font-size:13px;opacity:0.5">Also available: Perpetual license for air-gapped environments — $249 (includes 1 year of updates)</p>
+</section>
+
+<section class="compare">
+  <h2>How we compare</h2>
+  <div style="overflow-x:auto">
+  <table>
+    <tr><th>Feature</th><th>LocalForge</th><th>GitHub Copilot</th><th>Cursor</th><th>Claude Code</th></tr>
+    <tr><td>Fully offline</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Any LLM provider</td><td class="yes">75+</td><td class="no">1</td><td class="partial">Limited</td><td class="no">1</td></tr>
+    <tr><td>Multi-agent workflow</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>CLI + Web UI</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
+    <tr><td>Autonomous agent</td><td class="yes">Yes</td><td class="partial">Preview</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+    <tr><td>Self-hosted server</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Price</td><td class="yes">$0-$29/mo</td><td>$10-39/mo</td><td>$20/mo</td><td>$20/mo</td></tr>
+    <tr><td>No vendor lock-in</td><td class="yes">✓</td><td class="no">✗</td><td class="partial">Partial</td><td class="no">✗</td></tr>
+  </table>
+  </div>
+</section>
+</div>
+
+<footer>
+  <p>LocalForge — Open source core · Commercial license for Pro/Enterprise</p>
+  <p>© 2026 <strong>Nrupal Akolkar</strong>. All rights reserved.</p>
+  <p>Proudly Made in Canada 🇨🇦</p>
+</footer>
+</body>
+</html>

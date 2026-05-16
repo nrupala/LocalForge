@@ -1,0 +1,67 @@
+{
+  "name": "local-forge",
+  "displayName": "LocalForge",
+  "description": "Local LLM-powered development forge",
+  "version": "2.0.0",
+  "publisher": "local-forge",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:localForge.analyzeContext",
+    "onCommand:localForge.focusTasks"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "localForge.analyzeContext",
+        "title": "LocalForge: Extract Context Map"
+      },
+      {
+        "command": "localForge.focusTasks",
+        "title": "LocalForge: Focus Tasks Panel"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "localforge-sidebar",
+          "title": "LocalForge",
+          "icon": "$(terminal)"
+        }
+      ]
+    },
+    "views": {
+      "localforge-sidebar": [
+        {
+          "type": "webview",
+          "id": "localforge.taskManagerView",
+          "name": "LocalForge Console"
+        }
+      ]
+    }
+  },
+  "bin": {
+    "localforge": "./out/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node out/cli.js",
+    "server": "node out/server.js",
+    "run": "node out/cli.js run",
+    "workflow": "node out/cli.js workflow"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.8.0",
+    "@types/vscode": "^1.120.0",
+    "typescript": "^6.0.3"
+  }
+}
