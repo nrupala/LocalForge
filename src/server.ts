@@ -11,13 +11,14 @@ const HOST = process.env.LOCALFORGE_HOST || '127.0.0.1';
 
 function createEngine(): { engine: LocalForgeEngine; pm: ProviderManager } {
   const pm = new ProviderManager(process.cwd());
-  const type = (process.env.LOCALFORGE_PROVIDER || 'local') as 'local' | 'opencode' | 'openai';
-  const labels: Record<string, string> = { local: 'llama.cpp (Local)', opencode: 'OpenCode (75+ providers)', openai: 'OpenAI-Compatible API' };
+  const isDemo = process.env.LOCALFORGE_DEMO === '1';
+  const type = (process.env.LOCALFORGE_PROVIDER || (isDemo ? 'demo' : 'local')) as 'local' | 'opencode' | 'openai' | 'demo';
+  const labels: Record<string, string> = { demo: 'Demo Mode (no LLM needed)', local: 'llama.cpp (Local)', opencode: 'OpenCode (75+ providers)', openai: 'OpenAI-Compatible API' };
   pm.setConfig({
     type,
     label: labels[type] || type,
-    endpoint: process.env.LOCALFORGE_ENDPOINT || (type === 'local' ? 'http://127.0.0.1:11434/v1' : type === 'opencode' ? 'http://127.0.0.1:4096' : 'https://api.openai.com/v1'),
-    model: process.env.LOCALFORGE_MODEL || 'qwen2.5-coder-7b-instruct-q4_k_m',
+    endpoint: process.env.LOCALFORGE_ENDPOINT || (type === 'local' ? 'http://127.0.0.1:11434/v1' : type === 'opencode' ? 'http://127.0.0.1:4096' : type === 'demo' ? '' : 'https://api.openai.com/v1'),
+    model: process.env.LOCALFORGE_MODEL || (isDemo ? '' : 'qwen2.5-coder-7b-instruct-q4_k_m'),
     apiKey: process.env.LOCALFORGE_API_KEY || undefined,
   });
   return { engine: new LocalForgeEngine(pm), pm };
@@ -115,8 +116,9 @@ body { display: flex; flex-direction: column; }
     <span style="font-size:11px;color:#666" id="statusBar">Connected</span>
     <div style="display:flex;gap:6px;align-items:center">
       <select id="providerSelect" onchange="switchProvider(this.value)" style="font-size:11px">
-        <option value="local">llama.cpp</option>
-        <option value="opencode">OpenCode</option>
+        <option value="demo">Demo Mode</option>
+        <option value="local">llama.cpp (Local)</option>
+        <option value="opencode">OpenCode (75+ providers)</option>
         <option value="openai">OpenAI API</option>
       </select>
     </div>
@@ -272,14 +274,12 @@ function startServer() {
 
           engine.onToken = (token) => res.write(token);
           engine.onStreamStart = () => {};
-          engine.onStreamEnd = () => res.end();
+          engine.onStreamEnd = () => {};
 
           try {
             const result = await engine.processRequest(m, message, '');
-            if (!engine.onToken) {
-              res.write(result.message || '');
-              res.end();
-            }
+            res.write(result.message || '');
+            res.end();
           } catch (err: any) {
             res.write(`Error: ${err.message}`);
             res.end();
@@ -318,8 +318,8 @@ function startServer() {
         try {
           const { type } = JSON.parse(body);
           const { pm } = createEngine();
-          const labels: Record<string, string> = { local: 'llama.cpp (Local)', opencode: 'OpenCode (75+ providers)', openai: 'OpenAI-Compatible API' };
-          const ep = type === 'local' ? 'http://127.0.0.1:11434/v1' : type === 'opencode' ? 'http://127.0.0.1:4096' : 'https://api.openai.com/v1';
+          const labels: Record<string, string> = { demo: 'Demo Mode (no LLM needed)', local: 'llama.cpp (Local)', opencode: 'OpenCode (75+ providers)', openai: 'OpenAI-Compatible API' };
+          const ep = type === 'local' ? 'http://127.0.0.1:11434/v1' : type === 'opencode' ? 'http://127.0.0.1:4096' : type === 'openai' ? 'https://api.openai.com/v1' : '';
           const cfg = pm.getConfig();
           if (type === 'openai') cfg.apiKey = process.env.LOCALFORGE_API_KEY || 'sk-demo';
           pm.setConfig({ ...cfg, type, label: labels[type] || type, endpoint: ep });
@@ -337,6 +337,12 @@ function startServer() {
       const { pm } = createEngine();
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(pm.getConfig()));
+      return;
+    }
+
+    if (url.pathname === '/api/health' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', uptime: process.uptime() }));
       return;
     }
 

@@ -35,54 +35,49 @@ Write-Host ""
 
 # Step 2: Demo CLI - One-shot mode
 Write-Host "─── [2/6] CLI: One-Shot Mode ───" -ForegroundColor Yellow
-Write-Host '$ localforge run "explain what LocalForge can do"' -ForegroundColor Green
-& node "$PSScriptRoot\dist\cli.js" run "ping" --demo 2>&1 | Out-Null
-Write-Host "  ✓ Returns AI response inline" -ForegroundColor Green
-Write-Host "  ✓ Pipe-ready for automation scripts" -ForegroundColor Green
+Write-Host '$ localforge run "hello"' -ForegroundColor Green
+$env:LOCALFORGE_DEMO = "1"
+$output = & node "$PSScriptRoot\out\cli.js" run "hello" 2>&1
+Write-Host "  $output" -ForegroundColor White
 Write-Host ""
 
 # Step 3: Demo CLI - Plan mode
 Write-Host "─── [3/6] CLI: Plan Mode (Architecture) ───" -ForegroundColor Yellow
-Write-Host '$ localforge plan "add input validation to my API"' -ForegroundColor Green
-Write-Host ""
-Write-Host "  Output:" -ForegroundColor Gray
-Write-Host "  ┌─────────────────────────────────────────────┐" -ForegroundColor DarkGray
-Write-Host "  │ ## Plan                                      │" -ForegroundColor DarkGray
-Write-Host "  │ 1. Add validation function in utils/validate.ts│" -ForegroundColor DarkGray
-Write-Host "  │ 2. Update handler to call validation          │" -ForegroundColor DarkGray
-Write-Host "  │ 3. Add tests for edge cases                   │" -ForegroundColor DarkGray
-Write-Host "  └─────────────────────────────────────────────┘" -ForegroundColor DarkGray
-Write-Host ""
+Write-Host '$ localforge plan "add input validation"' -ForegroundColor Green
+$planOutput = & node "$PSScriptRoot\out\cli.js" plan "add input validation" 2>&1
+Write-Host "  $planOutput" -ForegroundColor White
 
 # Step 4: Demo CLI - Multi-agent workflow (the killer feature)
 Write-Host "─── [4/6] Multi-Agent Workflow Pipeline ───" -ForegroundColor Yellow
-Write-Host '$ localforge workflow "add input validation"' -ForegroundColor Green
+Write-Host '$ env:LOCALFORGE_DEMO="1"; localforge workflow "add input validation"' -ForegroundColor Green
+$wfOutput = & node "$PSScriptRoot\out\cli.js" workflow "add input validation" 2>&1
+Write-Host "  $wfOutput"
+
 Write-Host ""
-Write-Host "  ╔═══════════════════════════════════════╗" -ForegroundColor DarkGray
-Write-Host "  ║           WORKFLOW ENGINE             ║" -ForegroundColor DarkGray
-Write-Host "  ╠═══════════════════════════════════════╣" -ForegroundColor DarkGray
-Write-Host "  ║  1. Planner  ──→ architecture plan    ║  [DONE]" -ForegroundColor Green
-Write-Host "  ║  2. Writer   ──→ generates code       ║  [DONE]" -ForegroundColor Green
-Write-Host "  ║  3. Reviewer ──→ code review           ║  [DONE]" -ForegroundColor Green
-Write-Host "  ║  4. Tester   ──→ unit tests + run      ║  [DONE]" -ForegroundColor Green
-Write-Host "  ╚═══════════════════════════════════════╝" -ForegroundColor DarkGray
-Write-Host "  ✓ 4 files generated" -ForegroundColor Green
-Write-Host "  ✓ 0 review issues" -ForegroundColor Green
-Write-Host "  ✓ All tests passing" -ForegroundColor Green
-Write-Host ""
+Write-Host "  ✓ 4-step pipeline ran automatically" -ForegroundColor Green
+Write-Host "  ✓ Each agent had isolated context" -ForegroundColor Green
+Write-Host "  ✓ Full trace with retry logic" -ForegroundColor Green
 
 # Step 5: Start Web UI and show it
 Write-Host "─── [5/6] Web UI (Standalone Server) ───" -ForegroundColor Yellow
 Write-Host '$ localforge-server' -ForegroundColor Green
+Write-Host ""
 Write-Host "  Starting server on http://localhost:3096 ..." -ForegroundColor Gray
+
+# Start server in background and test it
+$serverProc = Start-Process -NoNewWindow -FilePath "node" -ArgumentList "$PSScriptRoot\out\server.js" -PassThru -Environment @{LOCALFORGE_DEMO="1"; LOCALFORGE_PORT="3098"}
+Start-Sleep -Seconds 2
+try {
+  $health = Invoke-WebRequest -Uri "http://127.0.0.1:3098/api/health" -UseBasicParsing -TimeoutSec 3
+  Write-Host "  ✓ Server running (health: $($health.Content))" -ForegroundColor Green
+  $chat = Invoke-WebRequest -Uri "http://127.0.0.1:3098/api/chat" -Method POST -Body '{"message":"hello","mode":"chat"}' -ContentType "application/json" -UseBasicParsing -TimeoutSec 3
+  Write-Host "  ✓ Chat API responds: $($chat.Content)" -ForegroundColor Green
+} catch {
+  Write-Host "  ✗ Server error: $_" -ForegroundColor Red
+}
+$serverProc.Kill()
 Write-Host ""
-Write-Host "  Web UI Features:" -ForegroundColor White
-Write-Host "  ├── Chat interface with SSE streaming" -ForegroundColor Cyan
-Write-Host "  ├── Provider selector (local/opencode/openai)" -ForegroundColor Cyan
-Write-Host "  ├── Multi-agent workflow trigger" -ForegroundColor Cyan
-Write-Host "  ├── Collapsible console output" -ForegroundColor Cyan
-Write-Host "  └── Session management" -ForegroundColor Cyan
-Write-Host ""
+
 Write-Host "  Open in browser: http://localhost:3096" -ForegroundColor Blue
 Write-Host ""
 

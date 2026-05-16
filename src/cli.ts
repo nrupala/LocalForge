@@ -49,13 +49,9 @@ async function runOneShot(prompt: string) {
   const pm = getProviderFromEnv();
   const engine = new LocalForgeEngine(pm);
 
-  engine.onToken = (token) => process.stdout.write(token);
-  engine.onStreamStart = () => {};
-  engine.onStreamEnd = () => process.stdout.write('\n');
-
   try {
     const result = await engine.processRequest(Mode.Chat, prompt, '');
-    if (result.message && !engine.onToken) {
+    if (result.message) {
       console.log(result.message);
     }
   } catch (err: any) {
@@ -181,20 +177,17 @@ async function runInteractive() {
       return;
     }
 
-    engine.onToken = (token) => process.stdout.write(token);
-    engine.onStreamStart = () => {};
-    engine.onStreamEnd = () => { process.stdout.write('\n'); rl.prompt(); };
-
     try {
       rl.pause();
       const result = await engine.processRequest(Mode.Chat, input, '');
-      if (result.message && !engine.onToken) {
-        console.log(result.message);
-        rl.prompt();
+      if (result.message) {
+        console.log('\n' + result.message);
       }
     } catch (err: any) {
       console.error(`\n  Error: ${err.message}`);
+    } finally {
       rl.prompt();
+      rl.resume();
     }
   });
 
