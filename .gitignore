@@ -23,3 +23,8 @@ mock_hardware_driver.c
 details.docx
 *.png
 !icon.png
+!docs/*.png
+!media/*.png
+scripts/VIDEO-NOTES.md
+demo-assets/
+test_narration.mp3
