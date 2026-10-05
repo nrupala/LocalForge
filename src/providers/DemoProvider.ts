@@ -115,7 +115,25 @@ export function getDemoResponse(messages: { role: string; content: string }[]): 
 
   if (lastMsg.includes('ping')) return 'pong';
 
-  if (lastMsg.includes('plan') || lastMsg.includes('architecture') || lastMsg.includes('design')) {
+  // Role-specific branches FIRST. The workflow passes prior agent outputs as
+  // context, so generic keywords ('plan', 'test') would misfire on the
+  // planner's JSON output. Each role prompt carries a unique marker.
+  if (lastMsg.includes('code writer')) {
+    // Complete code fixture — deterministic, so demo/benchmark runs are stable.
+    return DEMO_WRITES[0];
+  }
+
+  if (lastMsg.includes('code reviewer')) {
+    const r = DEMO_REVIEWS[demoIndex % DEMO_REVIEWS.length];
+    demoIndex++;
+    return r;
+  }
+
+  if (lastMsg.includes('you are a tester')) {
+    return DEMO_TESTS[0];
+  }
+
+  if (lastMsg.includes('you are a planner') || lastMsg.includes('architecture') || lastMsg.includes('design')) {
     const plan = DEMO_PLANS[demoIndex % DEMO_PLANS.length];
     demoIndex++;
     return JSON.stringify({
