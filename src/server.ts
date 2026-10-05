@@ -7,7 +7,7 @@ import { Mode } from './Mode';
 import { WorkflowEngine } from './Workflow';
 import { describeActiveEdition, getActiveEdition, verificationEnabled, TIERS } from './edition';
 
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 
 const PORT = parseInt(process.env.LOCALFORGE_PORT || '3096', 10);
 const HOST = process.env.LOCALFORGE_HOST || '127.0.0.1';

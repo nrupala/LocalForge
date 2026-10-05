@@ -30,6 +30,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Benchmark — Muse-quality bar (demo mode)
+        run: LOCALFORGE_DEMO=1 LOCALFORGE_VERIFICATION=1 npm run benchmark
+        env:
+          CI: true
+
       - name: Package VS Code extension
         run: npx vsce package --no-dependencies 2>/dev/null || echo "vsce not installed, skipping"
 

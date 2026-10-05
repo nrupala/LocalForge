@@ -2,7 +2,7 @@
   "name": "local-forge",
   "displayName": "LocalForge",
   "description": "Local-first AI development platform — VS Code extension + CLI + Web UI with multi-agent workflow (Planner→Writer→Reviewer→Tester)",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "nrupala",
   "author": {
     "name": "Nrupal Akolkar",
@@ -83,7 +83,8 @@
     "start": "node out/cli.js",
     "server": "node out/server.js",
     "run": "node out/cli.js run",
-    "workflow": "node out/cli.js workflow"
+    "workflow": "node out/cli.js workflow",
+    "benchmark": "node scripts/benchmark/run.js"
   },
   "dependencies": {
     "axios": "^1.6.0"
