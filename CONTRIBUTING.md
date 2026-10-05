@@ -23,3 +23,12 @@ Use the [issue templates](.github/ISSUE_TEMPLATE/) — they'll be emailed to the
 ## Questions?
 
 Open a [GitHub Discussion](https://github.com/nrupala/LocalForge/discussions).
+
+
+## PR-flow discipline (Portfolio Certification Program)
+
+- Draft PR → tests green → owner merges. NO direct pushes to `master`.
+- Every PR adds a CHANGELOG entry under `## [Unreleased]`.
+- Every PR bumps the semver version in `package.json` (patch=fix,
+  minor=feature).
+- Merge commits reference the PR number; releases are tagged `vX.Y.Z`.

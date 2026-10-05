@@ -7,6 +7,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- Portfolio certification rollout: NOTICE (attribution) added; AGPL-3.0
+  SPDX license headers added to source files; version bumped to 0.2.1
+  (patch); PR-flow discipline section in CONTRIBUTING.md (no direct pushes
+  to master; CHANGELOG entry under Unreleased per PR; merge commits
+  reference PR numbers; releases tagged vX.Y.Z).
 - Editions as license flags (`src/edition.ts`): Founder Workshop, LocalForge
   Complete (bundle), Air-gap Enterprise, Perpetual — one codebase, no forks.
   Resolved from `LOCALFORGE_EDITION` / `LOCALFORGE_VERIFICATION`.

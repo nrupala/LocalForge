@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import * as readline from 'readline';
 import { ProviderManager } from './providers/ProviderManager';
 import { LocalForgeEngine } from './AgentTask';

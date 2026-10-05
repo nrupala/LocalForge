@@ -2,7 +2,7 @@
   "name": "local-forge",
   "displayName": "LocalForge",
   "description": "Local-first AI development platform — VS Code extension + CLI + Web UI with multi-agent workflow (Planner→Writer→Reviewer→Tester)",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "nrupala",
   "author": {
     "name": "Nrupal Akolkar",
