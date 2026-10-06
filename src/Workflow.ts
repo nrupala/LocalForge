@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { ConsoleEntry } from './AgentTask';
 import { verificationEnabled, getActiveEdition } from './edition';
 import { mintCertificate, ProofCertificate } from './verification';

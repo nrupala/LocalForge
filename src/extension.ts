@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import * as vscode from 'vscode';
 import { PolyglotContextEngine } from './parsers/ContextEngine';
 import { SandboxExecutor } from './sandbox/Executor';

@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 /**
  * LocalForge benchmark — the Muse-quality bar, enforced not documented.
  *
