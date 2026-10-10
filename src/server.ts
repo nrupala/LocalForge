@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import * as http from 'http';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -5,6 +7,9 @@ import { ProviderManager } from './providers/ProviderManager';
 import { LocalForgeEngine } from './AgentTask';
 import { Mode } from './Mode';
 import { WorkflowEngine } from './Workflow';
+import { describeActiveEdition, getActiveEdition, verificationEnabled, TIERS } from './edition';
+
+const VERSION = '0.2.0';
 
 const PORT = parseInt(process.env.LOCALFORGE_PORT || '3096', 10);
 const HOST = process.env.LOCALFORGE_HOST || '127.0.0.1';
@@ -342,7 +347,73 @@ function startServer() {
 
     if (url.pathname === '/api/health' && req.method === 'GET') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ status: 'ok', uptime: process.uptime() }));
+      res.end(JSON.stringify({
+        status: 'ok',
+        uptime: process.uptime(),
+        version: VERSION,
+        edition: getActiveEdition(),
+        verification: verificationEnabled(),
+      }));
+      return;
+    }
+
+    // Agent discovery: machine-readable capability document (ship-check standard).
+    if (url.pathname === '/.well-known/localforge.json' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        name: 'LocalForge',
+        version: VERSION,
+        description: 'Local-first AI development platform. Your code stays on your machine; builds carry proof.',
+        edition: getActiveEdition(),
+        verification: verificationEnabled(),
+        endpoints: {
+          chat: 'POST /api/chat {message, mode}',
+          workflow: 'POST /api/workflow {goal}',
+          provider: 'POST /api/provider {type}',
+          config: 'GET /api/config',
+          health: 'GET /api/health',
+          edition: 'GET /api/edition',
+        },
+        tiers: TIERS.map(t => ({ name: t.name, price: t.price, verification: t.verification })),
+        handshake: 'See HANDSHAKE.md for API/MCP/ACP interop with sibling AIMLDS tools.',
+      }));
+      return;
+    }
+
+    // llms.txt: plain-text brief for AI agents (ship-check standard).
+    if (url.pathname === '/llms.txt' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end(
+`# LocalForge
+Local-first AI development platform — VS Code extension, CLI, Web UI.
+Multi-agent workflow: Planner -> Writer -> Reviewer -> Tester.
+Zero data leaves the machine. AES-256-GCM conversation encryption.
+
+## For agents
+- Capability document: /.well-known/localforge.json
+- Chat: POST /api/chat with {"message","mode"} where mode is chat|agent|plan|build
+- Workflow: POST /api/workflow with {"goal"} — returns steps and, when the
+  verification layer is enabled, a hash-chained proof certificate.
+- Health: GET /api/health
+
+## Editions (license flags, one codebase)
+${TIERS.map(t => `- ${t.name} (${t.price}): ${t.bestFor}`).join('\n')}
+
+## Interop
+API/MCP/ACP handshake with sibling AIMLDS tools (AxiomCode, SAIC, KalaBodha,
+Research Analyst) is specified in HANDSHAKE.md.
+`);
+      return;
+    }
+
+    if (url.pathname === '/api/edition' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        edition: getActiveEdition(),
+        description: describeActiveEdition(),
+        verification: verificationEnabled(),
+        tiers: TIERS,
+      }));
       return;
     }
 
@@ -352,9 +423,20 @@ function startServer() {
 
   server.listen(PORT, HOST, () => {
     const authMsg = process.env.LOCALFORGE_API_KEY ? ' (API key required)' : '';
-    console.log(`\n  LocalForge Web UI running at http://${HOST}:${PORT}${authMsg}`);
+    console.log(`\n  LocalForge Web UI v${VERSION} running at http://${HOST}:${PORT}${authMsg}`);
+    console.log(`  Edition: ${describeActiveEdition()}`);
     console.log(`  Provider: ${process.env.LOCALFORGE_PROVIDER || 'local'}`);
+    console.log(`  Agent discovery: http://${HOST}:${PORT}/.well-known/localforge.json`);
     console.log(`  Press Ctrl+C to stop\n`);
+  });
+
+  server.on('error', (err: any) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n  Port ${PORT} is already in use. Set LOCALFORGE_PORT to use another port.\n`);
+    } else {
+      console.error(`\n  Server error: ${err.message}\n`);
+    }
+    process.exit(1);
   });
 
   const shutdown = (signal: string) => {

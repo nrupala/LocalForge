@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { Mode, getModeSystemPrompt, ModelInfo, SecurityConfig, DEFAULT_SECURITY_CONFIG } from './Mode';
 import { ProviderManager, ProviderConfig, ProviderType } from './providers/ProviderManager';
 import * as crypto from 'crypto';

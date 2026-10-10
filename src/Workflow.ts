@@ -1,4 +1,8 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { ConsoleEntry } from './AgentTask';
+import { verificationEnabled, getActiveEdition } from './edition';
+import { mintCertificate, ProofCertificate } from './verification';
 
 export enum AgentRole {
   Planner = 'planner',
@@ -22,6 +26,8 @@ export interface WorkflowResult {
   steps: WorkflowStep[];
   summary: string;
   success: boolean;
+  /** Present only when the verification layer is enabled (see edition.ts). */
+  certificate?: ProofCertificate;
 }
 
 export class WorkflowEngine {
@@ -67,10 +73,19 @@ export class WorkflowEngine {
     const success = steps.every(s => s.status === 'completed');
     this.log(success ? 'success' : 'warn', `Workflow: ${success ? 'completed' : 'completed with issues'}`);
 
+    // Verification layer (edition flag, not a fork): mint a proof certificate
+    // for the observed run. See verification.ts for the honest scope.
+    let certificate: ProofCertificate | undefined;
+    if (verificationEnabled()) {
+      certificate = mintCertificate(steps, goal, getActiveEdition());
+      this.log('success', `Proof certificate minted: ${certificate.serial} (chain ${certificate.chainHash.substring(0, 12)}…)`);
+    }
+
     return {
       steps,
       summary: steps.map(s => `[${s.role}] ${s.status}${s.retries > 0 ? ` (${s.retries} retries)` : ''}`).join(' → '),
-      success
+      success,
+      certificate
     };
   }
 

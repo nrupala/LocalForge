@@ -1,8 +1,11 @@
+// Copyright (c) 2026 Nrupal Akolkar
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import * as readline from 'readline';
 import { ProviderManager } from './providers/ProviderManager';
 import { LocalForgeEngine } from './AgentTask';
 import { Mode } from './Mode';
 import { WorkflowEngine } from './Workflow';
+import { describeActiveEdition, TIERS, EDITION_LABELS } from './edition';
 
 const [, , cmd, ...args] = process.argv;
 
@@ -15,7 +18,13 @@ USAGE:
   localforge run "<prompt>"       One-shot mode
   localforge plan "<goal>"        Generate a plan
   localforge workflow "<goal>"    Run multi-agent workflow
+  localforge edition              Show active edition and commercial tiers
   localforge --help               Show this help
+
+EDITIONS (license flags, one codebase — no forks):
+  LOCALFORGE_EDITION=workshop|complete|enterprise|perpetual  (default: workshop)
+  LOCALFORGE_VERIFICATION=1       Enable the verification layer on Pro
+                                  (proof certificates; included in Complete/Enterprise/Perpetual)
 
 PROVIDERS:
   Set these env vars to configure providers:
@@ -88,6 +97,13 @@ async function runWorkflowMode(goal: string) {
   }
 
   if (!result.success) process.exit(1);
+
+  if (result.certificate) {
+    const c = result.certificate;
+    console.log(`\n  Proof certificate: ${c.serial}`);
+    console.log(`  Issued: ${c.issuedAt} | Edition: ${c.edition} | Chain: ${c.chainHash.substring(0, 16)}…`);
+    console.log(`  Scope: ${c.scope}`);
+  }
 }
 
 async function runPlanMode(goal: string) {
@@ -108,6 +124,7 @@ async function runInteractive() {
 
   const cfg = pm.getConfig();
   console.log(`\n  LocalForge CLI — ${cfg.label} | Model: ${cfg.model}`);
+  console.log(`  Edition: ${describeActiveEdition()}`);
   console.log(`  Type /help for commands, /workflow for multi-agent mode, /plan for planning\n`);
 
   rl.prompt();
@@ -211,6 +228,15 @@ async function main() {
     const goal = args.join(' ') || '';
     if (!goal) { console.error('Usage: localforge workflow "<goal>"'); process.exit(1); }
     await runWorkflowMode(goal);
+  } else if (cmd === 'edition') {
+    console.log(`\n  Active edition: ${describeActiveEdition()}\n`);
+    console.log('  Commercial tiers:');
+    for (const t of TIERS) {
+      const marker = EDITION_LABELS[t.edition];
+      console.log(`    ${t.name} — ${t.price} [${marker}]${t.verification ? ' +verification' : ''}`);
+      console.log(`      ${t.bestFor}`);
+    }
+    console.log('');
   } else if (cmd === 'plan') {
     const goal = args.join(' ') || '';
     await runPlanMode(goal);
