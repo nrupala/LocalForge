@@ -1,3 +1,9 @@
+# ARCHIVED — RESEARCH PRODUCT (2026-10-26)
+
+**LocalForge is retained as a research product of AIMLDS.** It is not a market product and is not in active product development. This repository is archived as the research record.
+
+---
+
 # LocalForge
 
 > **Local-first AI development platform** — VS Code extension · CLI · Web UI  
